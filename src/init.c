@@ -1,21 +1,28 @@
 #include "init.h"
 
+#include "libs.h"
+
 #include <dos/dos.h>
 
 /*--------------------------------------------------------------------------*/
 
-int main(void)
+int InitOpen(void)
 {
-	int result = InitOpen();
+	int result = LibsOpen();
 
-	if (RETURN_OK == result)
+	if (RETURN_OK != result)
 	{
-
+		return result;
 	}
 
-	InitClose();
-
 	return result;
+}
+
+/*--------------------------------------------------------------------------*/
+
+void InitClose(void)
+{
+	LibsClose();
 }
 
 /*--------------------------------------------------------------------------*/
