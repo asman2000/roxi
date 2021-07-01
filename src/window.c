@@ -1,0 +1,114 @@
+#include "window.h"
+
+#include "input.h"
+#include "screen.h"
+
+
+#include <dos/dos.h>
+#include <graphics/gfx.h>
+
+#include <proto/exec.h>
+#include <proto/intuition.h>
+#include <proto/graphics.h>
+#include <proto/dos.h>
+#include <proto/utility.h>
+
+
+#include <intuition/intuition.h>
+
+static void WindowSetTag(Tag name, Tag value);
+
+/*--------------------------------------------------------------------------*/
+
+static struct Window* win = NULL;
+
+static ULONG windowSignal;
+ 
+
+static struct TagItem tags[] =
+{
+	{WA_CustomScreen, 0},
+	{WA_Left, 0},
+	{WA_Top, 0},
+	{WA_InnerWidth, 0},
+	{WA_InnerHeight, 0},
+	{WA_Activate, TRUE},
+	{WA_GimmeZeroZero, TRUE},
+	{WA_Borderless, TRUE},
+	{WA_Backdrop, TRUE},
+	{WA_NoCareRefresh, TRUE},
+	{WA_IDCMP, IDCMP_RAWKEY},
+	{WA_Flags, WFLG_SUPER_BITMAP},
+	{WA_RMBTrap, TRUE},
+	{TAG_END, TAG_END},
+};
+
+/*--------------------------------------------------------------------------*/
+
+int WindowOpen(void)
+{
+	WindowSetTag(WA_CustomScreen, ScreenGetAddress());
+	WindowSetTag(WA_InnerWidth, ScreenGetWidth());
+	WindowSetTag(WA_InnerHeight, ScreenGetHeight());
+
+	win = OpenWindowTagList(NULL, tags);
+
+	if (NULL == win)
+	{
+		return RETURN_FAIL;
+	}
+
+	windowSignal = 1L << win->UserPort->mp_SigBit; 
+
+	return RETURN_OK;
+}
+
+/*--------------------------------------------------------------------------*/
+
+void WindowClose(void)
+{
+	if (win)
+	{
+		CloseWindow(win);
+	}
+}
+
+/*--------------------------------------------------------------------------*/
+
+static void WindowSetTag(Tag name, Tag value)
+{
+	struct TagItem* item = FindTagItem(name, tags);
+
+	if (item)
+	{
+		item->ti_Data = value;
+	}
+}
+
+/*--------------------------------------------------------------------------*/
+
+void WindowProcessInputs(void)
+{
+	const ULONG signals = Wait(windowSignal);
+
+	if (signals & windowSignal)
+	{
+		struct IntuiMessage *msg;
+
+		while (TRUE)
+		{
+			msg = (struct IntuiMessage*)GetMsg(win->UserPort);
+
+			if (NULL == msg)
+			{
+				break;
+			}
+
+			ReplyMsg((struct Message*)msg);
+
+			InputSetKeys(msg->Code);
+		}
+	}
+}
+
+/*--------------------------------------------------------------------------*/

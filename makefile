@@ -7,7 +7,7 @@ CC = vc
 VBCCINCLUDE = C:/vbcc/targets/m68k-amigaos/include/
 OSINCLUDE = C:/vbcc/include_h/
 
-CFLAGS =-quiet -c -O1 -sc -c99 -I$(VBCCINCLUDE) -I$(OSINCLUDE)
+CFLAGS =-quiet -c -O2 -sc -c99 -I$(VBCCINCLUDE) -I$(OSINCLUDE)
 START = C:/vbcc/targets/m68k-amigaos/lib/minstart.o
 
 SRCDIR = src

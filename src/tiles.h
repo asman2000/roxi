@@ -1,9 +1,11 @@
-#ifndef ROXI_INIT_H
-#define ROXI_INIT_H
+#ifndef ROXI_TILES_H
+#define ROXI_TILES_H
 /*--------------------------------------------------------------------------*/
 
-int InitOpen(void);
-void InitClose(void);
+int TilesOpen(void);
+void TilesClose(void);
+
+void TilesDraw(void);
 
 /*--------------------------------------------------------------------------*/
-#endif /* ROXI_INIT_H */
+#endif /* ROXI_TILES_H */

@@ -1,9 +1,11 @@
-#ifndef ROXI_INIT_H
-#define ROXI_INIT_H
+#ifndef ROXI_WINDOW_H
+#define ROXI_WINDOW_H
 /*--------------------------------------------------------------------------*/
 
-int InitOpen(void);
-void InitClose(void);
+int WindowOpen(void);
+void WindowClose(void);
+
+void WindowProcessInputs(void);
 
 /*--------------------------------------------------------------------------*/
-#endif /* ROXI_INIT_H */
+#endif /* ROXI_WINDOW_H */

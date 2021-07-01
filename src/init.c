@@ -1,6 +1,10 @@
 #include "init.h"
 
 #include "libs.h"
+#include "screen.h"
+#include "tiles.h"
+#include "window.h"
+
 
 #include <dos/dos.h>
 
@@ -15,6 +19,28 @@ int InitOpen(void)
 		return result;
 	}
 
+	result = ScreenOpen();
+
+	if (RETURN_OK != result)
+	{
+		return result;
+	}
+
+	result = WindowOpen();
+
+	if (RETURN_OK != result)
+	{
+		return result;
+	}
+
+	result = TilesOpen();
+
+	if (RETURN_OK != result)
+	{
+		return result;
+	}
+
+
 	return result;
 }
 
@@ -22,6 +48,10 @@ int InitOpen(void)
 
 void InitClose(void)
 {
+	TilesClose();
+
+	WindowClose();
+	ScreenClose();
 	LibsClose();
 }
 
