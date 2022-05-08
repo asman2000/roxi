@@ -46,7 +46,7 @@ static void TilesInit(void)
 	for (i = 0; i < 16; ++i)
 	{
 		*first = 0xffff;
-		first += bitmap->BytesPerRow / 2;
+		first += bitmap->BytesPerRow >> 1;
 	}
 }
 
