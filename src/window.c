@@ -5,16 +5,14 @@
 
 
 #include <dos/dos.h>
-#include <graphics/gfx.h>
+#include <intuition/intuition.h>
 
 #include <proto/exec.h>
 #include <proto/intuition.h>
-#include <proto/graphics.h>
-#include <proto/dos.h>
 #include <proto/utility.h>
 
 
-#include <intuition/intuition.h>
+
 
 static void WindowSetTag(Tag name, Tag value);
 
