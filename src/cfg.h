@@ -1,12 +1,15 @@
-#ifndef ROXI_BITMAP_H
-#define ROXI_BITMAP_H
+#ifndef ROXI_CFG_H
+#define ROXI_CFG_H
 /*--------------------------------------------------------------------------*/
 
 #include "types.h"
 
-struct BitMap* BitmapDisplayable(struct Dimension* dim);
+void CfgInit(void);
 
-void BitmapFree(struct BitMap* bm);
+
+struct Dimension* CfgGetDimension(void);
+
+ULONG CfgGetDisplayId(void);
 
 /*--------------------------------------------------------------------------*/
-#endif /* ROXI_BITMAP_H */
+#endif /* ROXI_CFG_H */
