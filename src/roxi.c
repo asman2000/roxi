@@ -4,6 +4,7 @@
 #include "window.h"
 #include "tiles.h"
 
+#include <proto/exec.h>
 #include <dos/dos.h>
 
 /*--------------------------------------------------------------------------*/
@@ -20,7 +21,14 @@ int main(void)
 
 		while (TRUE)
 		{
-			WindowProcessInputs();
+			const ULONG windowSignal = WindowGetSignal();
+
+			const ULONG signals = Wait(windowSignal);
+
+			if (signals & windowSignal)
+			{
+				WindowProcessInputs();
+			}
 
 			if (InputIsExitToOsPressed())
 			{

@@ -59,8 +59,6 @@ int WindowOpen(void)
 		return RETURN_FAIL;
 	}
 
-	windowSignal = 1L << win->UserPort->mp_SigBit; 
-
 	return RETURN_OK;
 }
 
@@ -90,26 +88,28 @@ static void WindowSetTag(Tag name, Tag value)
 
 void WindowProcessInputs(void)
 {
-	const ULONG signals = Wait(windowSignal);
+	struct IntuiMessage *msg;
 
-	if (signals & windowSignal)
+	while (TRUE)
 	{
-		struct IntuiMessage *msg;
+		msg = (struct IntuiMessage *)GetMsg(win->UserPort);
 
-		while (TRUE)
+		if (NULL == msg)
 		{
-			msg = (struct IntuiMessage*)GetMsg(win->UserPort);
-
-			if (NULL == msg)
-			{
-				break;
-			}
-
-			ReplyMsg((struct Message*)msg);
-
-			InputSetKeys(msg->Code);
+			break;
 		}
+
+		ReplyMsg((struct Message *)msg);
+
+		InputSetKeys(msg->Code);
 	}
+}
+
+/*--------------------------------------------------------------------------*/
+
+ULONG WindowGetSignal(void)
+{
+	return 1L << win->UserPort->mp_SigBit;
 }
 
 /*--------------------------------------------------------------------------*/

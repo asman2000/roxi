@@ -40,7 +40,7 @@ int ScreenOpen(void)
 {
 	struct Dimension *dim = CfgGetDimension();
 
-	bitmap = BitmapDisplayable(dim); 
+	bitmap = BitmapDisplayable(dim);
 
 	if (NULL == bitmap)
 	{
