@@ -4,6 +4,7 @@
 #include "cfg.h"
 #include "libs.h"
 #include "screen.h"
+#include "screenFrame.h"
 #include "tiles.h"
 #include "window.h"
 
@@ -44,6 +45,13 @@ int InitOpen(void)
 		return result;
 	}
 
+	result = ScreenFrameOpen();
+
+	if (RETURN_OK != result)
+	{
+		return result;
+	}
+
 	result = TilesOpen();
 
 	if (RETURN_OK != result)
@@ -61,6 +69,7 @@ void InitClose(void)
 {
 	TilesClose();
 
+	ScreenFrameClose();
 	WindowClose();
 	ScreenClose();
 	BitmapsFree();
