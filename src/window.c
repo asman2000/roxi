@@ -1,5 +1,6 @@
 #include "window.h"
 
+#include "cfg.h"
 #include "input.h"
 #include "screen.h"
 
@@ -45,9 +46,11 @@ static struct TagItem tags[] =
 
 int WindowOpen(void)
 {
+	struct Dimension* dim = CfgGetDimension(); 
+
 	WindowSetTag(WA_CustomScreen, ScreenGetAddress());
-	WindowSetTag(WA_InnerWidth, ScreenGetWidth());
-	WindowSetTag(WA_InnerHeight, ScreenGetHeight());
+	WindowSetTag(WA_InnerWidth, dim->width);
+	WindowSetTag(WA_InnerHeight, dim->height);
 
 	win = OpenWindowTagList(NULL, tags);
 

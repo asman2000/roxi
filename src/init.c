@@ -1,5 +1,6 @@
 #include "init.h"
 
+#include "cfg.h"
 #include "libs.h"
 #include "screen.h"
 #include "tiles.h"
@@ -18,6 +19,8 @@ int InitOpen(void)
 	{
 		return result;
 	}
+
+	CfgInit();
 
 	result = ScreenOpen();
 

@@ -1,5 +1,6 @@
 #include "tiles.h"
 
+#include "cfg.h"
 #include "screen.h"
 
 #include <dos/dos.h>
@@ -20,7 +21,8 @@ static void TilesInit(void);
 int TilesOpen(void)
 {
 	const ULONG flags = BMF_CLEAR | BMF_INTERLEAVED;
-	const ULONG depth = ScreenGetDepth();
+
+	const ULONG depth = CfgGetDimension()->depth;
 
 	bitmap = AllocBitMap(16, 16, depth, flags, NULL);
 

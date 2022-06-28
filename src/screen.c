@@ -1,5 +1,8 @@
 #include "screen.h"
 
+#include "bitmap.h"
+#include "cfg.h"
+
 #include <dos/dos.h>
 #include <intuition/intuition.h>
 
@@ -12,10 +15,6 @@
 static void ScreenSetTag(Tag name, Tag value);
 
 /*--------------------------------------------------------------------------*/
-
-static const ULONG width = 320;
-static const ULONG height = 256;
-static const ULONG depth = 4;
 
 static struct Screen* scr = NULL;
 
@@ -39,9 +38,9 @@ static struct TagItem tags[] =
 
 int ScreenOpen(void)
 {
-	const ULONG flags = BMF_CLEAR | BMF_DISPLAYABLE | BMF_INTERLEAVED;
+	struct Dimension *dim = CfgGetDimension();
 
-	bitmap = AllocBitMap(width, height, depth, flags, NULL);
+	bitmap = BitmapDisplayable(dim); 
 
 	if (NULL == bitmap)
 	{
@@ -49,9 +48,9 @@ int ScreenOpen(void)
 	}
 
 	ScreenSetTag(SA_BitMap, (ULONG)bitmap); 
-	ScreenSetTag(SA_Width, width);
-	ScreenSetTag(SA_Height, height);
-	ScreenSetTag(SA_Depth, depth);
+	ScreenSetTag(SA_Width, dim->width);
+	ScreenSetTag(SA_Height, dim->height);
+	ScreenSetTag(SA_Depth, dim->depth);
 
 	scr  = OpenScreenTagList(NULL, tags);
 
@@ -81,27 +80,6 @@ void ScreenClose(void)
 ULONG ScreenGetAddress(void)
 {
 	return (ULONG)scr;
-}
-
-/*--------------------------------------------------------------------------*/
-
-ULONG ScreenGetWidth(void)
-{
-	return width;
-}
-
-/*--------------------------------------------------------------------------*/
-
-ULONG ScreenGetHeight(void)
-{
-	return height;
-}
-
-/*--------------------------------------------------------------------------*/
-
-ULONG ScreenGetDepth(void)
-{
-	return depth;
 }
 
 /*--------------------------------------------------------------------------*/
