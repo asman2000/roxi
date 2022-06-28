@@ -40,14 +40,7 @@ int ScreenOpen(void)
 {
 	struct Dimension *dim = CfgGetDimension();
 
-	bitmap = BitmapDisplayable(dim);
-
-	if (NULL == bitmap)
-	{
-		return RETURN_FAIL;
-	}
-
-	ScreenSetTag(SA_BitMap, (ULONG)bitmap); 
+	ScreenSetTag(SA_BitMap, (ULONG)BitmapGetOne()); 
 	ScreenSetTag(SA_Width, dim->width);
 	ScreenSetTag(SA_Height, dim->height);
 	ScreenSetTag(SA_Depth, dim->depth);

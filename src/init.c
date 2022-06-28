@@ -1,5 +1,6 @@
 #include "init.h"
 
+#include "bitmap.h"
 #include "cfg.h"
 #include "libs.h"
 #include "screen.h"
@@ -21,6 +22,13 @@ int InitOpen(void)
 	}
 
 	CfgInit();
+
+	result = BitmapsAllocate();
+
+	if (RETURN_OK != result)
+	{
+		return result;
+	}
 
 	result = ScreenOpen();
 
@@ -55,6 +63,7 @@ void InitClose(void)
 
 	WindowClose();
 	ScreenClose();
+	BitmapsFree();
 	LibsClose();
 }
 
