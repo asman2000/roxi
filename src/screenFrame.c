@@ -49,7 +49,7 @@ int ScreenFrameOpen(void)
 
 		fr->sbuf = AllocScreenBuffer(screen, bitmap, 0);
 
-		if (1 == i)
+		if (0 == i)
 		{
 			bitmap = BitmapGetTwo();
 		}

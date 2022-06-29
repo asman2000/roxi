@@ -23,10 +23,10 @@ int main(void)
 	{
 		InputInit();
 
-		TilesDraw();
-
 		ScreenFrameSwap();
-		DrawFrame();
+
+		//TilesDraw();
+
 
 		while (TRUE)
 		{
