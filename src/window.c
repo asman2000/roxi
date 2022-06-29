@@ -48,7 +48,7 @@ int WindowOpen(void)
 {
 	struct Dimension* dim = CfgGetDimension(); 
 
-	WindowSetTag(WA_CustomScreen, ScreenGetAddress());
+	WindowSetTag(WA_CustomScreen, (ULONG)ScreenGet());
 	WindowSetTag(WA_InnerWidth, dim->width);
 	WindowSetTag(WA_InnerHeight, dim->height);
 

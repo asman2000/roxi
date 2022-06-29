@@ -2,6 +2,7 @@
 
 #include "cfg.h"
 #include "screen.h"
+#include "screenFrame.h"
 
 #include <dos/dos.h>
 #include <graphics/gfx.h>
@@ -31,7 +32,7 @@ int TilesOpen(void)
 		return RETURN_FAIL;
 	}
 
-	rp = ScreenGetRastPort();
+	rp = ScreenFrameGetRastPort();
 
 	TilesInit();
 

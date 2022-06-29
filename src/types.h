@@ -6,6 +6,8 @@
 #include <dos/dos.h>
 #include <utility/tagitem.h>
 
+#define ARRAY_SIZE(array)  sizeof (array) / sizeof (array[0]) 
+
 struct Dimension
 {
 	ULONG width;

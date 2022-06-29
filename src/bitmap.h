@@ -11,8 +11,8 @@ struct BitMap* BitmapDisplayable(struct Dimension* dim);
 
 void BitmapFree(struct BitMap* bm);
 
-struct BitMap* BitmapGetTwo(void);
-struct BitMap* BitmapGetOne(void);
+struct BitMap** BitmapsGet(void);
+
 
 /*--------------------------------------------------------------------------*/
 #endif /* ROXI_BITMAP_H */

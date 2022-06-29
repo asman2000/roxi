@@ -8,9 +8,7 @@
 int ScreenOpen(void);
 void ScreenClose(void);
 
-ULONG ScreenGetAddress(void);
-
-struct RastPort* ScreenGetRastPort(void);
+struct Screen* ScreenGet(void);
 
 /*--------------------------------------------------------------------------*/
 #endif /* ROXI_SCREEN_H */

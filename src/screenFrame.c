@@ -25,10 +25,10 @@ static struct RastPort rp;
 int ScreenFrameOpen(void)
 {
 	WORD i;
-	struct Screen* screen = (struct Screen*)ScreenGetAddress();
-	struct BitMap* bitmap = BitmapGetOne();
+	struct BitMap** bitmaps = BitmapsGet();
 
 	InitRastPort(&rp);
+	rp.BitMap = *bitmaps;
 
 	for (i = 0; i < 2; ++i)
 	{
@@ -47,12 +47,7 @@ int ScreenFrameOpen(void)
 			return RETURN_FAIL;
 		}
 
-		fr->sbuf = AllocScreenBuffer(screen, bitmap, 0);
-
-		if (0 == i)
-		{
-			bitmap = BitmapGetTwo();
-		}
+		fr->sbuf = AllocScreenBuffer(ScreenGet(), *bitmaps++, 0);
 
 		if (NULL == fr->sbuf)
 		{
@@ -79,7 +74,6 @@ int ScreenFrameOpen(void)
 void ScreenFrameClose(void)
 {
 	WORD i;
-	struct Screen* screen = (struct Screen*)ScreenGetAddress();
 
 	for (i = 0; i < 2; ++i)
 	{
@@ -91,15 +85,13 @@ void ScreenFrameClose(void)
 			
 			GetMsg(fr->mport);
 
-			if (0 == fr->counter)
+			if (0 != fr->counter)
 			{
-				break;
+				Wait(fr->signal);
 			}
-			
-			Wait(fr->signal);
 		}
 
-		FreeScreenBuffer(screen, fr->sbuf);
+		FreeScreenBuffer(ScreenGet(), fr->sbuf);
 		DeleteMsgPort(fr->mport);
 	} 
 }
@@ -108,10 +100,8 @@ void ScreenFrameClose(void)
 
 void ScreenFrameSwap(void)
 {
-	struct Screen* screen = (struct Screen*)ScreenGetAddress();
-
 	WaitBlit();
-	ChangeScreenBuffer(screen, frames[currentFrame].sbuf);
+	ChangeScreenBuffer(ScreenGet(), frames[currentFrame].sbuf);
 	currentFrame ^= 1;
 	frames[0].counter++;
 	frames[1].counter++;
@@ -128,7 +118,7 @@ ULONG ScreenFrameGetDispSignal(void)
 
 ULONG ScreenFrameGetSafeSignal(void)
 {
-	return  frames[0].signal;
+	return frames[0].signal;
 }
 
 /*--------------------------------------------------------------------------*/

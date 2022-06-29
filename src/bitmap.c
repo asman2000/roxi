@@ -2,30 +2,29 @@
 
 #include "cfg.h"
 
-
 #include <proto/graphics.h>
 
-static struct BitMap* bitmapOne = NULL; 
-static struct BitMap* bitmapTwo = NULL; 
-
+static struct BitMap* bitmaps[2];
 /*--------------------------------------------------------------------------*/
 
 int BitmapsAllocate(void)
 {
+	UWORD i;
 	struct Dimension *dim = CfgGetDimension();
 
-	bitmapOne = BitmapDisplayable(dim);
-
-	if (NULL == bitmapOne)
+	for (i = 0; i < ARRAY_SIZE(bitmaps); ++i)
 	{
-		return RETURN_FAIL;
+		bitmaps[i] = NULL;
 	}
 
-	bitmapTwo = BitmapDisplayable(dim);
-
-	if (NULL == bitmapTwo)
+	for (i = 0; i < ARRAY_SIZE(bitmaps); ++i)
 	{
-		return RETURN_FAIL;
+		bitmaps[i] = BitmapDisplayable(dim);
+
+		if (NULL == bitmaps[i])
+		{
+			return RETURN_FAIL;
+		}
 	}
 
 	return RETURN_OK;
@@ -35,8 +34,12 @@ int BitmapsAllocate(void)
 
 void BitmapsFree(void)
 {
-	BitmapFree(bitmapOne);
-	BitmapFree(bitmapTwo);
+	UWORD i;
+
+	for (i = 0; i < ARRAY_SIZE(bitmaps); ++i)
+	{
+		BitmapFree(bitmaps[i]);
+	}
 }
 
 /*--------------------------------------------------------------------------*/
@@ -57,16 +60,9 @@ void BitmapFree(struct BitMap* bm)
 
 /*--------------------------------------------------------------------------*/
 
-struct BitMap* BitmapGetOne(void)
+struct BitMap** BitmapsGet(void)
 {
-	return bitmapOne;
-}
-
-/*--------------------------------------------------------------------------*/
-
-struct BitMap* BitmapGetTwo(void)
-{
-	return bitmapTwo;
+	return bitmaps;
 }
 
 /*--------------------------------------------------------------------------*/

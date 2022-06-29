@@ -25,7 +25,7 @@ int main(void)
 
 		ScreenFrameSwap();
 
-		//TilesDraw();
+		TilesDraw();
 
 
 		while (TRUE)

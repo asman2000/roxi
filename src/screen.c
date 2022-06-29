@@ -18,8 +18,6 @@ static void ScreenSetTag(Tag name, Tag value);
 
 static struct Screen* scr = NULL;
 
-static struct BitMap* bitmap = NULL; 
-
 static struct TagItem tags[] =
 {
 	{SA_BitMap, 0},
@@ -40,7 +38,7 @@ int ScreenOpen(void)
 {
 	struct Dimension *dim = CfgGetDimension();
 
-	ScreenSetTag(SA_BitMap, (ULONG)BitmapGetOne()); 
+	ScreenSetTag(SA_BitMap, (ULONG)*BitmapsGet()); 
 	ScreenSetTag(SA_Width, dim->width);
 	ScreenSetTag(SA_Height, dim->height);
 	ScreenSetTag(SA_Depth, dim->depth);
@@ -64,22 +62,13 @@ void ScreenClose(void)
 	{
 		CloseScreen(scr);
 	}
-	
-	FreeBitMap(bitmap);
 }
 
 /*--------------------------------------------------------------------------*/
 
-ULONG ScreenGetAddress(void)
+struct Screen* ScreenGet(void)
 {
-	return (ULONG)scr;
-}
-
-/*--------------------------------------------------------------------------*/
-
-struct RastPort* ScreenGetRastPort(void)
-{
-	return &scr->RastPort;
+	return scr;
 }
 
 /*--------------------------------------------------------------------------*/
